@@ -76,7 +76,7 @@ function generatePostItemTemplate(postItem){
                     </div>
                     <div class="post-meta__data">
                         <div class="post-meta__author">${author.name}</div>
-                        <div class="post-meta__time">4 mesi fa</div>
+                        <div class="post-meta__time">${created}</div>
                     </div>                    
                 </div>
             </div>
