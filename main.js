@@ -56,6 +56,7 @@ const posts = [
     }
 ];
 
+
 //Seleziono il container dei post
 const postContainer = document.querySelector('#container.posts-list');
 //scorro l'array dei post
@@ -63,21 +64,58 @@ posts.forEach((postItem) =>{
     const postTemplate = generatePostItemTemplate(postItem);
     postContainer.innerHTML += postTemplate;
 })
+//creo array liked post
+const likedPost=[];
+//seleziono tutti i bottoni mi piace
+const allLikeButton = document.querySelectorAll('.js-like-button')
+allLikeButton.forEach((singleLikeButton) =>{
+    singleLikeButton.addEventListener('click', function(){
+        //blocco refresh pagina al click
+        event.preventDefault();
+        singleLikeButton.classList.toggle('like-button--liked');
+        //seleziono id
+        const thisId= this.dataset.postid;
+        //pusho id liked post
+        //converto il contatore like in dato numerico e aggiungo +1
+        let likeCounter = document.querySelector(`#like-counter-${thisId}`);
+        if(likedPost.includes(thisId)){
+            likeCounter.innerHTML= parseInt(likeCounter.innerHTML) - 1;
+            likedPost.splice(0, thisId)
+        }else{
+            likeCounter.innerHTML= parseInt(likeCounter.innerHTML) + 1;
+            likedPost.push(thisId);
+        }
+       console.log(likedPost)
+    
+    })
+    
+} )
+
 
 //functions
 function generatePostItemTemplate(postItem){
     const {content, likes, created, author, media , id} = postItem
+    const fullName = author.name.split(' ');
+    const [firstname, surname] = fullName;
+    console.log(firstname[0])
+    let imageString;
+    if(author.image){
+       imageString = `<img class="profile-pic" src=${author.image} alt="Phil Mangione"></img>`
+    }else{
+        imageString = `<span class="profile-pic-default">${firstname[0]}${surname[0]}</span>`
+    }
+    
     const postTemplate =`
     <div class="post">
-            <div class="post__header">
-                <div class="post-meta">                    
-                    <div class="post-meta__icon">
-                        <img class="profile-pic" src=${author.image} alt="Phil Mangione">                    
-                    </div>
+    <div class="post__header">
+    <div class="post-meta">                    
+    <div class="post-meta__icon">
+    ${imageString}                    
+    </div>
                     <div class="post-meta__data">
-                        <div class="post-meta__author">${author.name}</div>
+                    <div class="post-meta__author">${author.name}</div>
                         <div class="post-meta__time">${created}</div>
-                    </div>                    
+                        </div>                    
                 </div>
             </div>
             <div class="post__text">${content}</div>
@@ -85,19 +123,29 @@ function generatePostItemTemplate(postItem){
                 <img src=${media} alt="">
             </div>
             <div class="post__footer">
-                <div class="likes js-likes">
-                    <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="1">
-                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                            <span class="like-button__label">Mi Piace</span>
-                        </a>
+            <div class="likes js-likes">
+            <div class="likes__cta">
+            <a class="like-button  js-like-button" href="#" data-postid=${id}>
+            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+            <span class="like-button__label">Mi Piace</span>
+            </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
+                    Piace a <b id="like-counter-${id}" class="js-likes-counter">${likes}</b> persone
                     </div>
-                </div> 
-            </div>            
-        </div>
-    `
-    return postTemplate
+                    </div> 
+                    </div>            
+                    </div>
+                    `
+                    return postTemplate
+}
+
+function getImage(name, surname){
+    let stringImg ;
+    if(image){
+        stringImg =`<img class="profile-pic" src=${author.image} alt="Phil Mangione">`  
+    } else{
+        stringImg = `<span>${name[0]}${surname[0]}`
+        console.log
+    }
 }
