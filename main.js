@@ -80,7 +80,7 @@ function generatePostItemTemplate(postItem){
                     </div>                    
                 </div>
             </div>
-            <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
+            <div class="post__text">${content}</div>
             <div class="post__image">
                 <img src=${media} alt="">
             </div>
